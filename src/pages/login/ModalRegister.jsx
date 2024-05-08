@@ -8,10 +8,12 @@ import userEvent from "@testing-library/user-event";
 const ModalRegister = (props) => {
     const [selinfo, setSelinfo] = useState({});
     const [checkLoginIdOn, setCheckLoginIdOn] = useState(false);
+
     const inputLoginID = useRef();
     const inputPassword = useRef();
     const inputPasswordConfirm = useRef();
     const inputName = useRef();
+    const inputGenderType = useRef();
 
 
 
@@ -133,11 +135,7 @@ const ModalRegister = (props) => {
         let nullcheckResult = commonjs.nullcheck([
             { inval: selinfo?.password, msg: "비밀번호를 입력하세요." },
         ]);
-
-        if ( !nullcheckResult ) {
-            return false;
-        }
-        return true;
+        return nullcheckResult;
     }
 
     const checkInputPasswordConfirm = () => {
@@ -145,23 +143,23 @@ const ModalRegister = (props) => {
         let nullcheckResult = commonjs.nullcheck([
             { inval: selinfo?.password1, msg: "비밀번호 확인을 입력하세요." },
         ]);
-
-        if ( !nullcheckResult ) {
-            return false;
-        }
-        return true;
+        return nullcheckResult;
     }
 
-    const checkInputPasswordConfirm = () => {
+    const checkInputName = () => {
 
         let nullcheckResult = commonjs.nullcheck([
-            { inval: selinfo?.password1, msg: "비밀번호 확인을 입력하세요." },
+            { inval: selinfo?.regiName, msg: "이름을 입력하세요." },
         ]);
+        return nullcheckResult;
+    }
 
-        if ( !nullcheckResult ) {
-            return false;
-        }
-        return true;
+    const checkInputGenderType = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.gender_cd, msg: "성별을 선택해 주세요." },
+        ]);
+        return nullcheckResult;
     }
 
     const checkRegisterValidation = () => {
@@ -182,6 +180,18 @@ const ModalRegister = (props) => {
             inputPasswordConfirm.current.focus();
             return;
         }
+        if ( !checkInputGenderType() ) {
+            inputGenderType.current.focus();
+            return;
+        }
+        // if ( !checkInputBirthday1() ) {
+        //     inputBirthday1.current.focus();
+        //     return;
+        // }
+        // if ( !checkInputBirthday2() ) {
+        //     inputBirthday2.current.focus();
+        //     return;
+        // }
 /*
         let nullcheckResult = commonjs.nullcheck([
             { inval: selinfo?.loginID,      msg: "아이디를 입력하세요." },
@@ -250,7 +260,7 @@ const ModalRegister = (props) => {
                                     type="password"
                                     className="form-control input-sm"
                                     style={{width: "400px"}}
-                                    placeholder="숫자, 영문자, 특수문자 조합으로 8~15자리"
+                                    // placeholder="숫자, 영문자, 특수문자 조합으로 8~15자리"
                                     defaultValue={selinfo?.password}
                                     onBlur={(e) => {
                                         setSelinfo((prev) => {
@@ -309,7 +319,9 @@ const ModalRegister = (props) => {
                                         setSelinfo((prev) => {
                                             return { ...prev, gender_cd: e.target.value }
                                         });                                    
-                                    }}>
+                                    }}
+                                    ref={inputGenderType}
+                                    >
                                     <option value="" selected="selected">선택</option>
                                     <option value="M">남자</option>
                                     <option value="F">여자</option>
