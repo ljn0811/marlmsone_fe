@@ -1,0 +1,63 @@
+a:hover {
+  color: gold;
+}
+
+tr.row:hover {
+  background-color: gold;
+}
+
+.samplePageTable {
+  border-collapse: collapse;
+  border: 1px #50bcdf;
+  width: 100%;
+}
+
+.samplePageTable2 {
+  border: 0px;
+  border-color: blue;
+}
+
+.samplePageTable3 {
+  font-size: 100%;
+  text-align: left;
+}
+
+.samplePageSelect1 {
+  width: 150px;
+}
+
+.samplePageInput1 {
+  width: 55%;
+}
+
+.modal-content th {
+  padding: 5px 10px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.modal-content td {
+  padding: 2px 5px;
+}
+
+.modal-content input[type='text'],
+.modal-content textarea {
+  width: 100%;
+  border: 1px solid #bbc2cd;
+  padding: 5px;
+}
+
+.modal-button {
+  padding: 5px;
+  text-align: right;
+}
+
+.modal-button button {
+  margin-left: 5px;
+  padding: 2px 10px;
+}
+
+.filepreview {
+  width: 100px;
+  height: 100px;
+}
