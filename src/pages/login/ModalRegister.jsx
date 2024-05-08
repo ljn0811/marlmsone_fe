@@ -2,7 +2,6 @@ import React, {useState, useEffect, useRef} from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import * as commonjs from "../../components/common/commonfunction.js"
-import userEvent from "@testing-library/user-event";
 
 
 const ModalRegister = (props) => {
@@ -14,46 +13,27 @@ const ModalRegister = (props) => {
     const inputPasswordConfirm = useRef();
     const inputName = useRef();
     const inputGenderType = useRef();
-
+    const inputBirthday1 = useRef();
+    const inputBirthday2 = useRef();
+    const inputTel = useRef();
+    const inputEmail = useRef();
+    const inputZipcode = useRef();
+    const inputAddress = useRef();
+    
 
 
     useEffect(() => {
 
+        setSelinfo({});
         setCheckLoginIdOn(false);
+        
         return () => {
             setSelinfo({});
         }
     }, []);
 
-
-    // 강의 정보 상세보기
-    const searchLecInfoDetail = (tutorId, lecId) => {
-        
-        // var param = {
-        //     tutorId : tutorId,
-        //     lectureId : data
-        // }
-        // url: '/tut/tutorLectureDetail',
-
-        let params = new URLSearchParams();
-
-        params.append('tutorId', tutorId);
-        params.append('lectureId', lecId);
-
-        axios.post("/tut/tutorLectureDetail.do", params)
-            .then((res) => {
-                // {"data":{"detailTutorLecture":{"lec_id":1,"lec_name":"자바의이해",
-                console.log("searchLecDetail() result console : " + JSON.stringify(res));
-
-                setSelinfo(res.data.detailTutorLecture);
-            })
-            .catch((err) => {
-                console.log("searchLecDetail() result error : " + err.message);
-                alert(err.message);
-            });
-    }
-
     const close = () => {
+        setSelinfo({});
         props.setModalAction(false);
     }
 
@@ -71,24 +51,6 @@ const ModalRegister = (props) => {
     // 아이디 중복체크
     const checkIdDuplication = () => {
         
-        let idRules =  /^[a-z0-9]{6,20}$/g ;
-        let nullcheckResult = commonjs.nullcheck([
-            { inval: selinfo?.loginID, msg: "이름을 입력해 주세요." },
-        ]);
-
-        if (!nullcheckResult) {
-            inputLoginID.current.focus();
-            return;
-        }
-        if(!idRules.test(selinfo?.loginID)){
-            alert("아이디는 숫자, 영문자 조합으로 6~20자리를 사용해야 합니다.");
-            inputLoginID.current.focus();
-            return;
-        }
-        
-        // url: '/tut/tutorLectureDetail',
-        // var data = {"loginID" : $("#registerId").val()};
-        // url : '/check_loginID.do',
         let params = new URLSearchParams();
         params.append('loginID', selinfo?.loginID);
 
@@ -115,7 +77,8 @@ const ModalRegister = (props) => {
 
     const checkInputLoginID = () => {
 
-        let idRules =  /^[a-z0-9]{6,20}$/g ;
+        // let idRules =  /^[a-zA-Z0-9]{6,20}$/g;
+        let idRules = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]{6,20}$/;
         let nullcheckResult = commonjs.nullcheck([
             { inval: selinfo?.loginID, msg: "아이디를 입력하세요." },
         ]);
@@ -162,6 +125,54 @@ const ModalRegister = (props) => {
         return nullcheckResult;
     }
 
+    const checkInputBirthday1 = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.birthday1, msg: "주민등록번호를 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
+    const checkInputBirthday2 = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.birthday2, msg: "주민등록번호를 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
+    const checkInputTel = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.tel, msg: "전화번호를 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
+    const checkInputEmail = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.tel, msg: "이메일을 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
+    const checkInputZipcode = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.tel, msg: "우편번호를 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
+    const checkInputAddress = () => {
+
+        let nullcheckResult = commonjs.nullcheck([
+            { inval: selinfo?.tel, msg: "주소를 입력하세요." },
+        ]);
+        return nullcheckResult;
+    }
+
     const checkRegisterValidation = () => {
 
         if ( !checkInputLoginID() ) {
@@ -184,14 +195,30 @@ const ModalRegister = (props) => {
             inputGenderType.current.focus();
             return;
         }
-        // if ( !checkInputBirthday1() ) {
-        //     inputBirthday1.current.focus();
-        //     return;
-        // }
-        // if ( !checkInputBirthday2() ) {
-        //     inputBirthday2.current.focus();
-        //     return;
-        // }
+        if ( !checkInputBirthday1() ) {
+            inputBirthday1.current.focus();
+            return;
+        }
+        if ( !checkInputBirthday2() ) {
+            inputBirthday2.current.focus();
+            return;
+        }
+        if ( !checkInputTel() ) {
+            inputTel.current.focus();
+            return;
+        }
+        if ( !checkInputEmail() ) {
+            inputEmail.current.focus();
+            return;
+        }
+        if ( !checkInputZipcode() ) {
+            inputZipcode.current.focus();
+            return;
+        }
+        if ( !checkInputAddress() ) {
+            inputAddress.current.focus();
+            return;
+        }
 /*
         let nullcheckResult = commonjs.nullcheck([
             { inval: selinfo?.loginID,      msg: "아이디를 입력하세요." },
@@ -342,6 +369,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputBirthday1}
                                 />{" "}-{" "}
                                 <input
                                     type="text"
@@ -354,6 +382,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputBirthday2}
                                 />
                             </td>
                         </tr>
@@ -371,6 +400,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputTel}
                                 />
                             </td>
                         </tr>
@@ -388,6 +418,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputEmail}
                                 />
                             </td>
                         </tr>
@@ -405,6 +436,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputZipcode}
                                 />
                                 <button className="btn btn-primary mx-2" 
                                         style={{width: "120px"}}
@@ -425,6 +457,7 @@ const ModalRegister = (props) => {
                                         });
                                         console.log(selinfo)
                                     }}
+                                    ref={inputAddress}
                                 />
                             </td>
                         </tr>
