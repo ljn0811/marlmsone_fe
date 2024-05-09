@@ -10,34 +10,34 @@ const Equipment = () => {
     const [equitemlist, setEquitemlist] = useState([]);
     const [equtotalcnt, setEqutotalcnt] = useState(0);
     // const [searchroomid, setSearchroomid] = useState();
-    
+
     const [equModal, setEquModal] = useState(false);
     const [equId, setEquId] = useState();
 
-    const [pageSize , setPageSize] = useState(5);
+    const [pageSize, setPageSize] = useState(5);
 
     // const { search } = useLocation();
     // const id = useMemo(() => new URLSearchParams(search), [search]);
 
     const queryParam = useQueryParam();
-    const searchroomid = queryParam.get('id');
-    
-        const openEqu = (id) => {
-            setEquId(id);
-            setEquModal(true);
-        }
-        
-        const newEqu = () => {
-            setEquId("");
-            setEquModal(true);
-        }
+    const searchroomid = queryParam.get("id");
+
+    const openEqu = (id) => {
+        setEquId(id);
+        setEquModal(true);
+    };
+
+    const newEqu = () => {
+        setEquId("");
+        setEquModal(true);
+    };
 
     useEffect(() => {
         equlist(equcurrentPage);
     }, [searchroomid, equModal, equcurrentPage]);
 
     const equlist = (cpage) => {
-        if (typeof cpage === 'number') {
+        if (typeof cpage === "number") {
             cpage = cpage || 1;
         } else {
             cpage = 1;
@@ -67,7 +67,7 @@ const Equipment = () => {
             {equdis && (
                 <div>
                     <p className="conTitle">
-                        <span>장비 목록</span>{" "}
+                        <span>장비 목록</span>
                         <span className="fr">
                             <button
                                 className="btn btn-primary"
@@ -81,7 +81,8 @@ const Equipment = () => {
                     </p>
                     <div>
                         <b>
-                            총건수 : {equtotalcnt} 현재 페이지 번호 : {equcurrentPage}
+                            총건수 : {equtotalcnt} 현재 페이지 번호 :
+                            {equcurrentPage}
                         </b>
                         <table className="col">
                             <colgroup>
@@ -111,9 +112,9 @@ const Equipment = () => {
                                             <td>
                                                 <button
                                                     className="btn btn-primary"
-                                                onClick={() => {
-                                                    openEqu(item.equ_id);
-                                                }}
+                                                    onClick={() => {
+                                                        openEqu(item.equ_id);
+                                                    }}
                                                 >
                                                     수정
                                                 </button>
@@ -133,10 +134,16 @@ const Equipment = () => {
                     </div>
                 </div>
             )}
-        {equModal ? <ModalEqu modalAction={equModal} setModalAction={setEquModal} id={equId} lecrmId={searchroomid}></ModalEqu> : null}
+            {equModal ? (
+                <ModalEqu
+                    modalAction={equModal}
+                    setModalAction={setEquModal}
+                    id={equId}
+                    lecrmId={searchroomid}
+                ></ModalEqu>
+            ) : null}
         </div>
-
-    )
-}
+    );
+};
 
 export default Equipment;
