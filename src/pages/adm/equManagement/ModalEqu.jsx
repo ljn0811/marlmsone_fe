@@ -1,10 +1,9 @@
-import React , { useEffect, useState }from 'react';
-import Modal from 'react-modal';
+import React, { useEffect, useState } from "react";
+import Modal from "react-modal";
 import axios from "axios";
 import * as commonjs from "../../../components/common/commonfunction.js";
 
 const ModalEqu = (props) => {
-
     const [selinfo, setSelinfo] = useState({});
     const [roomList, setRoomList] = useState([]);
     const [selectedOption, setSelectedOption] = useState("");
@@ -30,12 +29,7 @@ const ModalEqu = (props) => {
             .catch((err) => {
                 alert(err.message);
             });
-            equMod(props.id);
-
-        return () => {
-            setSelinfo({});
-            setSelectedOption("");
-        }
+        equMod(props.id);
     }, []);
 
     const equMod = (id) => {
@@ -55,7 +49,6 @@ const ModalEqu = (props) => {
     };
 
     const postHandler = (action) => {
-
         if (action !== "D") {
             let checkresult = commonjs.nullcheck([
                 { inval: selectedOption, msg: "강의실을 선택해 주세요." },
@@ -65,14 +58,13 @@ const ModalEqu = (props) => {
             if (!checkresult) return;
         }
         let params = new URLSearchParams(selinfo);
-        if(selinfo.lecrm_id===""){
+        if (selinfo.lecrm_id === "") {
             params.append("lecrm_id", selectedOption);
         }
         params.append("action", action);
         axios
             .post("/adm/equSave.do", params)
             .then((res) => {
-
                 if (res.data.result === "S") {
                     alert(res.data.resultmsg);
                     props.setModalAction(false);
@@ -90,41 +82,57 @@ const ModalEqu = (props) => {
             .catch((err) => {
                 alert(err.message);
             });
-
     };
 
     const close = () => {
         props.setModalAction(false);
-    }
+    };
 
     return (
         <div>
             <Modal
                 style={modalStyle}
                 isOpen={props.modalAction}
-                appElement={document.getElementById('app')}
+                appElement={document.getElementById("app")}
             >
                 <div id="modalForm">
                     <p className="conTitle">
-                        <span>{props.id === "" ? "장비 등록" : "장비 수정"}</span>
+                        <span>
+                            {props.id === "" ? "장비 등록" : "장비 수정"}
+                        </span>
                     </p>
                     <table style={{ width: "550px", height: "100px" }}>
                         <tbody>
                             <tr>
-                                <th>강의실 <span className="font_red">*</span></th>
+                                <th>
+                                    강의실 <span className="font_red">*</span>
+                                </th>
                                 <td colSpan="3">
-                                    <select id={roomList} value={selectedOption} 
-                                    onChange={(e) => {
-                                        setSelectedOption(e.target.value)
-                                        setSelinfo((prev) => {
-                                            return { ...prev, lecrm_id: e.target.value }
-                                        });
-                                    }}>    
-                                        <option key={""} value={""}>======================선택======================</option>
+                                    <select
+                                        id={roomList}
+                                        value={selectedOption}
+                                        onChange={(e) => {
+                                            setSelectedOption(e.target.value);
+                                            setSelinfo((prev) => {
+                                                return {
+                                                    ...prev,
+                                                    lecrm_id: e.target.value,
+                                                };
+                                            });
+                                        }}
+                                    >
+                                        <option key={""} value={""}>
+                                            ======================선택======================
+                                        </option>
                                         {roomList.map((item) => {
                                             return (
-                                                <option key={item.lecrm_id} value={item.lecrm_id}>{item.lecrm_name}</option>
-                                            )
+                                                <option
+                                                    key={item.lecrm_id}
+                                                    value={item.lecrm_id}
+                                                >
+                                                    {item.lecrm_name}
+                                                </option>
+                                            );
                                         })}
                                     </select>
                                 </td>
@@ -140,7 +148,10 @@ const ModalEqu = (props) => {
                                         defaultValue={selinfo?.equ_name}
                                         onBlur={(e) => {
                                             setSelinfo((prev) => {
-                                                return { ...prev, equ_name: e.target.value }
+                                                return {
+                                                    ...prev,
+                                                    equ_name: e.target.value,
+                                                };
                                             });
                                         }}
                                     />
@@ -155,8 +166,11 @@ const ModalEqu = (props) => {
                                         defaultValue={selinfo?.equ_num}
                                         onBlur={(e) => {
                                             setSelinfo((prev) => {
-                                                return { ...prev, equ_num: e.target.value }
-                                            })
+                                                return {
+                                                    ...prev,
+                                                    equ_num: e.target.value,
+                                                };
+                                            });
                                         }}
                                     />
                                 </td>
@@ -170,33 +184,45 @@ const ModalEqu = (props) => {
                                         defaultValue={selinfo?.equ_note}
                                         onBlur={(e) => {
                                             setSelinfo((prev) => {
-                                                return { ...prev, equ_note: e.target.value }
-                                            })
+                                                return {
+                                                    ...prev,
+                                                    equ_note: e.target.value,
+                                                };
+                                            });
                                         }}
                                     />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                    <div className="modal-button" style={{textAlign:'center'}}>
-                        {
-                            props.id === "" ?
-                                <button className="btn btn-primary mx-2" onClick={() => postHandler("I")}>
-                                    등록
-                                </button> : null
-                        }
-                        {
-                            props.id !== "" ?
-                                <button className="btn btn-primary mx-2" onClick={() => postHandler("U")}>
-                                    수정
-                                </button> : null
-                        }
-                        {
-                            props.id !== "" ?
-                                <button className="btn btn-primary mx-2" onClick={() => postHandler("D")}>
-                                    삭제
-                                </button> : null
-                        }
+                    <div
+                        className="modal-button"
+                        style={{ textAlign: "center" }}
+                    >
+                        {props.id === "" ? (
+                            <button
+                                className="btn btn-primary mx-2"
+                                onClick={() => postHandler("I")}
+                            >
+                                등록
+                            </button>
+                        ) : null}
+                        {props.id !== "" ? (
+                            <button
+                                className="btn btn-primary mx-2"
+                                onClick={() => postHandler("U")}
+                            >
+                                수정
+                            </button>
+                        ) : null}
+                        {props.id !== "" ? (
+                            <button
+                                className="btn btn-primary mx-2"
+                                onClick={() => postHandler("D")}
+                            >
+                                삭제
+                            </button>
+                        ) : null}
 
                         <button className="btn btn-primary" onClick={close}>
                             닫기
@@ -205,7 +231,7 @@ const ModalEqu = (props) => {
                 </div>
             </Modal>
         </div>
-    )
-}
+    );
+};
 
 export default ModalEqu;
