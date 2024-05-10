@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Pagination from "../../components/common/Pagination";
 import Student from "./Student";
-import ModalLecture from "./ModalLecture";
+import ModalTutLecture from "./ModalTutLecture";
 
 
 
@@ -204,11 +204,11 @@ const LectureStudentInfo = () => {
                                                 onClick={searchLecInfoList}/>}
             </div> {/* End 강사의 강의목록 조회 */}
             {lecStdListOn? <Student></Student> : null}
-            {lecDtlModalOn? <ModalLecture modalAction={lecDtlModalOn} 
-                                      setModalAction={setLecDtlModalOn}
-                                      setListAction={setLecStdListOn}
-                                      tutorId={tutorId}
-                                      lecId={selLecId}></ModalLecture> : null}
+            {lecDtlModalOn? <ModalTutLecture modalAction={lecDtlModalOn} 
+                                        setModalAction={setLecDtlModalOn}
+                                        setListAction={setLecStdListOn}
+                                        tutorId={tutorId}
+                                        lecId={selLecId}></ModalTutLecture> : null}
         </div>
     )    
 }

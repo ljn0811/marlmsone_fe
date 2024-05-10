@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import axios from "axios";
 import Pagination from "../../components/common/Pagination";
 import { useQueryParam } from "../../hook/useQueryParam";
-import ModalStudent from "./ModalStudent";
+import ModalLecStudent from "./ModalLecStudent";
 
 
 const Student = () => {
@@ -282,10 +282,10 @@ const Student = () => {
                                                     onClick={searchLecStdList}/>}
                 </div>
             </div>{/* End 수강생목록 조회 */}
-            {stdDtlModalOn? <ModalStudent modalAction={stdDtlModalOn} 
+            {stdDtlModalOn? <ModalLecStudent modalAction={stdDtlModalOn} 
                                         setModalAction={setStdDtlModalOn} 
                                         tutorId={queryTutorId}
-                                        stdId={selStdId}></ModalStudent> : null}
+                                        stdId={selStdId}></ModalLecStudent> : null}
         </div>
     )    
 }
