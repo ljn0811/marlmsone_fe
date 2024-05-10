@@ -34,6 +34,10 @@ const LeftMenu = () => {
       if (document.getElementsByName("dd5")[0].style.display === "none")
         document.getElementsByName("dd5")[0].style.display = "";
       else document.getElementsByName("dd5")[0].style.display = "none";
+    } else if ("a6" === e.target.name) {
+      if (document.getElementsByName("dd6")[0].style.display === "none")
+        document.getElementsByName("dd6")[0].style.display = "";
+      else document.getElementsByName("dd6")[0].style.display = "none";
     }
     /*
     document.getElementsByName('dd0')[0].style.display='none';
