@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import Modal from "react-modal";
 import axios from "axios";
+import ModalStdLecRegister from "./ModalStdLecRegister";
 
 
 const ModalStudent = (props) => {
     const [selinfo, setSelinfo] = useState({});
     const [stdLecList, setStdLecList] = useState([]);
     const [stdLecTotalCnt, setStdLecTotalCnt] = useState(0);
+    const [lecRegModalOn, setLecRegModalOn] = useState(false);
 
 
     useEffect(() => {
@@ -135,6 +137,11 @@ const ModalStudent = (props) => {
         }
     }
 
+    // 수강등록 modal open
+    const registerLec = () => {
+        setLecRegModalOn(true);
+    }
+
     const close = () => {
         props.setModalAction(false);
     }
@@ -172,7 +179,8 @@ const ModalStudent = (props) => {
                                            "addr":"경기 시흥시 장현천로 170 (군자동, 장현 동원로얄듀크 메트로포레)",
                                            "join_date":null,"regi_num":null,"std_num":null},
                              "resultMsg":"조회 되었습니다."} */}
-                    <table style={{ width: "550px", height: "200px" }}>
+                    {/* <table style={{ width: "550px", height: "200px" }}> */}
+                    <table className="col">                   
                         <colgroup>
                             <col width="15%"/>
                             <col width="35%"/>
@@ -204,9 +212,22 @@ const ModalStudent = (props) => {
                         <tr>
                             <th>주소</th>
                             <td colSpan="3">{selinfo?.addr}</td>
-                        </tr>                                          
+                        </tr>
                     </table>
-                    <table className="col">
+                    <p className="conTitle">
+                        <span>강의목록</span>{" "}            
+                            <span className="fr">
+                            <button className="btn btn-primary"
+                                id="registerbtn"
+                                name="registerbtn"
+                                onClick={(e) => {
+                                    registerLec()
+                                }}
+                            ><span>수강등록</span>
+                            </button>
+                        </span>
+                    </p>
+                    <table className="col">                   
                         <colgroup>
                             <col width="15%"/>
                             <col width="25%"/>
@@ -245,7 +266,7 @@ const ModalStudent = (props) => {
                                             <td>{item.start_date} ~ {item.end_date}</td>                                            
                                             <td>{isLecEnded(item.end_date)? '종료' : '진행중'}</td>
                                             <td>
-                                                {isLecEnded(item.end_date) ? (
+                                                {isLecEnded(item.end_date)? (
                                                     <span>수강종료</span>) : (
                                                         <button className="btn btn-primary"
                                                             onClick={(e) => {
@@ -261,12 +282,17 @@ const ModalStudent = (props) => {
                                 })
                             }
                         </tbody>
-                    </table>                                                      
+                    </table>
                     <div className="modal-button">
                         <button className="btn btn-primary mx-2" onClick={close}>확인</button>
                     </div>
                 </div>    
-            </Modal>{/* End 수강생 상세정보 모달 */}
+            </Modal>{/* End 학생 상세정보 모달 */}
+            {lecRegModalOn? <ModalStdLecRegister modalAction={lecRegModalOn} 
+                                            setModalAction={setLecRegModalOn}
+                                            stdId={props.stdId}
+                                            setList={setStdLecList}
+                                            setTotalCnt={setStdLecTotalCnt}></ModalStdLecRegister> : null}
         </div>
     )    
 }

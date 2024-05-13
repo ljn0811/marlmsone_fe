@@ -4,7 +4,7 @@ import axios from "axios";
 
 import Pagination from "../../components/common/Pagination";
 import Student from "./Student";
-import ModalLecture from "./ModalLecture";
+import ModalLecture from "../tut/ModalTutLecture";
 
 
 
@@ -24,7 +24,8 @@ const StudentControl = () => {
 
     const [lecStdListOn, setLecStdListOn] = useState(false);
     const [lecDtlModalOn, setLecDtlModalOn] = useState(false);
-    const [selLecId, setSelLecId] = useState('');
+    const [selLecId, setSelLecId] = useState(0);
+    const [selTutorId, setSelTutorId] = useState('');
 
     
     useEffect(() => {
@@ -77,8 +78,9 @@ const StudentControl = () => {
     };
 
     // 강의 정보 상세보기 modal open
-    const searchLecDetail = (id) => {
-        setSelLecId(id);
+    const searchLecDetail = (lecId, tutorId) => {
+        setSelLecId(lecId);
+        setSelTutorId(tutorId);        
         setLecDtlModalOn(true);
     }
 
@@ -185,7 +187,7 @@ const StudentControl = () => {
                                         <td>{item.lec_id}</td>
                                         <td className="pointer-cursor" 
                                             onClick={() => {
-                                                searchLecDetail(item.lec_id)
+                                                searchLecDetail(item.lec_id, item.tutor_id)
                                             }}>{item.lec_name}</td>
                                         <td>{ formatDate(item.start_date)} ~ {formatDate(item.end_date)}</td>
                                         <td>
@@ -213,11 +215,11 @@ const StudentControl = () => {
                                                 onClick={searchLecInfoList}/>}
             </div> {/* End 전체 강의목록 조회 */}
             {lecStdListOn? <Student></Student> : null}
-            {/* {lecDtlModalOn? <ModalLecture modalAction={lecDtlModalOn} 
+            {lecDtlModalOn? <ModalLecture modalAction={lecDtlModalOn} 
                                         setModalAction={setLecDtlModalOn}
                                         setListAction={setLecStdListOn}
-                                        tutorId={tutorId}
-                                        lecId={selLecId}></ModalLecture> : null} */}
+                                        tutorId={selTutorId}
+                                        lecId={selLecId}></ModalLecture> : null}
         </div>
     )    
 }
