@@ -36,3 +36,20 @@
     transform: rotate(360deg);
   }
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+span.pointer {
+  color: black !important;
+}
+
+span.pointer:hover {
+  text-decoration: underline;
+}
+
+.doughnut div canvas {
+  width: 510px !important;
+  height: 510px !important;
+}
