@@ -154,19 +154,15 @@ const Login = () => {
                 <span className="id_save"> ID저장 </span>
               </p>
               <div>
-                {/* <a href="javascript:fRegister()" id="RegisterBtn" name="modal">
-                  <strong> [회원가입] </strong>
-                </a> */}
-                <strong className="pointer-cursor" 
-                        onClick={() => {
-                            register()
-                        }}>[회원가입]</strong>
+                <a href="#" onClick={register}>
+                  <strong>[회원가입]</strong>
+                </a>
                 <a href="">
                   <strong> [아이디 / 비밀번호 찾기] </strong>
                 </a>
-                <a onClick={linkTest}>
+                {/* <a onClick={linkTest}>
                   <Link to="/left"> left </Link>
-                </a>
+                </a> */}
               </div>
               <a className="btn_login" id="btn_login" onClick={fLoginProc}>
                 <strong> Login </strong>

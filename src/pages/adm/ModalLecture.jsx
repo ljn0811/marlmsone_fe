@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import axios from "axios";
 
 
-const ModalLecture = (props) => {
+const ModalTutLecture = (props) => {
     const [selinfo, setSelinfo] = useState({});
 
     useEffect(() => {
@@ -129,4 +129,4 @@ const ModalLecture = (props) => {
     )    
 }
 
-export default ModalLecture
+export default ModalTutLecture

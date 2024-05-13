@@ -4,11 +4,11 @@ import axios from "axios";
 
 import Pagination from "../../components/common/Pagination";
 import Student from "./Student";
-import ModalTutLecture from "./ModalTutLecture";
+import ModalLecture from "./ModalLecture";
 
 
 
-const LectureStudentInfo = () => {
+const StudentControl = () => {
 
     const navigate = useNavigate();
     const searchLecInput = useRef();
@@ -17,9 +17,6 @@ const LectureStudentInfo = () => {
     let blockSize = 10;
 
     const [lecCurrentPage, setLecCurrentPage] = useState(1);
-
-    // login id
-    const [tutorId, setTutorId] = useState('');
 
     // 강의 목록
     const [lecList, setLecList] = useState([]);
@@ -34,38 +31,44 @@ const LectureStudentInfo = () => {
         searchLecInfoList();
     }, []);
 
-    // 강사의 강의목록 조회
+    // 강의 전체 목록 조회
     const searchLecInfoList = (cpage) => {
         
         cpage = typeof cpage === 'object'? 1 : cpage || 1;
         setLecCurrentPage(cpage);
         setLecStdListOn(false);
 
-        // var param = {
-        //     tutorId : tutorId,
-        //     lectureValue : lectureValue,
-        //     currentPage : currentPage,
-        //     pageSize : pageSize
-        // }
-        // url: '/tut/tutorLectureList',
+		// var param = {
+		// 	searchWord_lec : searchWord,
+		// 	currentPage : currentPage,
+		// 	pageSize : pageSize
+		// }
+		// callAjax("/adm/plist_lec.do", "post", "text", true, param, resultCallback);
 
         let params = new URLSearchParams();
 
-        params.append('tutorId', tutorId);
-        params.append('lectureValue', searchLecInput.current.value);
+        params.append('searchWord_lec', searchLecInput.current.value);
         params.append('currentPage', cpage);
         params.append('pageSize', pageSize);        
 
-        axios.post("/tut/tutorLectureListjson.do", params)
+        axios.post("/adm/plist_lec_json.do", params)
             .then((res) => {
-                // "data":{"loginId":"bbb123"
-                //         "lectureList":[{"lec_id":1,"lec_name":"자바의이해",
-                //         "pageSize":10,"totalCount":15
+                // {"data":{"totalCnt_lec":46,
+                //          "list_lec":[{"lec_id":1,"lecrm_id":0,
+                //          "max_pnum":0,"pre_pnum":0,
+                //          "start_date":"2024.03.05","end_date":"2024.06.15",
+                //          "process_day":0,"lec_type_id":0,
+                //          "lec_type_name":null,"test_id":0,
+                //          "test_start":null,"test_end":null,"tutor_id":null,
+                //          "lec_name":"자바의이해","lec_goal":null,"lec_sort":null,"loginID":null,
+                //          "user_type":null,"use_yn":null, "name":null,"password":null,
+                //          "tel":null,"sex":null, "mail":null,"addr":null,
+                //          "join_date":null,"regi_num":null,"std_num":null}],"currentPage_lec":1,"pageSize":5}
                 console.log("searchLecInfoList() result console : " + JSON.stringify(res));
 
-                setLecTotalCnt(res.data.totalCount);
-                setLecList(res.data.lectureList);                
-                setTutorId(res.data.loginId);
+                setLecTotalCnt(res.data.totalCnt_lec);
+                setLecList(res.data.list_lec);
+                // setTutorId(res.data.loginId);
             })
             .catch((err) => {
                 console.log("searchLecInfoList() result error : " + err.message);
@@ -80,13 +83,13 @@ const LectureStudentInfo = () => {
     }
 
     // 수강생 목록 조회
-    const searchLecStdList = (lecId) => {
+    const searchLecStdList = (lecId, lecName) => {
 
         const query_lecId = [`lecId=${lecId ?? 0}`];
-        const query_tutorId = [`tutorId=${tutorId ?? 0}`];
+        const query_lecName = [`lecName=${lecName ?? 0}`];
         
         setLecStdListOn(true);
-        navigate(`/dashboard/tut/LectureStudentInfo?${query_lecId}&${query_tutorId}`);
+        navigate(`/dashboard/adm/StudentControl?${query_lecId}&&${query_lecName}`);
     }
 
     // 날짜를 yyyy-MM-dd 형식으로 포맷하는 함수
@@ -113,12 +116,12 @@ const LectureStudentInfo = () => {
         <div className='content'>
             <p className='Location'>
                 <a className='btn_set home'>메인으로</a>
-                <span className='btn_nav bold'>학습관리</span>
-                <span className='btn_nav bold'>수강생 정보</span>
+                <span className='btn_nav bold'>인원관리</span>
+                <span className='btn_nav bold'>학생관리</span>
                 <a className='btn_set refresh'>새로고침</a>
             </p>
 
-            {/* 강사의 강의목록 조회 */}
+            {/* 전체 강의목록 조회 */}
             <p className="conTitle">
                 <span>강의목록</span>{" "}            
                 <span className="fr">
@@ -143,11 +146,17 @@ const LectureStudentInfo = () => {
                 </span>
             </p>
             <div>
-                {/* "data":{"lectureList":[{"lec_id":1,"lec_name":"자바의이해",
-                                        "tutor_id":"bbb123","tutor_name":"스티븐잡스",
-                                        "lecrm_id":5,"lecrm_name":"4 강의실",
-                                        "start_date":1709564400000,"end_date":1718377200000,
-                                        "pre_pnum":5,"max_pnum":50,"process_day":0}, */}
+                {/* {"data":{"totalCnt_lec":46,
+                          "list_lec":[{"lec_id":1,"lecrm_id":0,
+                                       "max_pnum":0,"pre_pnum":0,
+                                       "start_date":"2024.03.05","end_date":"2024.06.15",
+                                       "process_day":0,"lec_type_id":0,
+                                       "lec_type_name":null,"test_id":0,
+                                       "test_start":null,"test_end":null,"tutor_id":null,
+                                       "lec_name":"자바의이해","lec_goal":null,"lec_sort":null,"loginID":null,
+                                       "user_type":null,"use_yn":null, "name":null,"password":null,
+                                       "tel":null,"sex":null, "mail":null,"addr":null,
+                                       "join_date":null,"regi_num":null,"std_num":null}],"currentPage_lec":1,"pageSize":5} */}
                 <span>총 건수 : {lecTotalCnt} / 현재 페이지 번호 : {lecCurrentPage}</span>
                 <table className="col">
                     <colgroup>
@@ -184,7 +193,7 @@ const LectureStudentInfo = () => {
                                             id="searchbtn"
                                             name="searchbtn"
                                             onClick={(e) => {
-                                                searchLecStdList(item.lec_id)
+                                                searchLecStdList(item.lec_id, item.lec_name)
                                             }}
                                         >
                                             <span>검색</span>
@@ -196,21 +205,21 @@ const LectureStudentInfo = () => {
                         }
                     </tbody>
                 </table>
-                {/* 강의목록 페이징 */}
+                {/* 전체 강의목록 페이징 */}
                 {lecTotalCnt > 0 && <Pagination currentPage={lecCurrentPage}
                                                 totalPage={lecTotalCnt}
                                                 pageSize={pageSize}
                                                 blockSize={blockSize}
                                                 onClick={searchLecInfoList}/>}
-            </div> {/* End 강사의 강의목록 조회 */}
+            </div> {/* End 전체 강의목록 조회 */}
             {lecStdListOn? <Student></Student> : null}
-            {lecDtlModalOn? <ModalTutLecture modalAction={lecDtlModalOn} 
+            {/* {lecDtlModalOn? <ModalLecture modalAction={lecDtlModalOn} 
                                         setModalAction={setLecDtlModalOn}
                                         setListAction={setLecStdListOn}
                                         tutorId={tutorId}
-                                        lecId={selLecId}></ModalTutLecture> : null}
+                                        lecId={selLecId}></ModalLecture> : null} */}
         </div>
     )    
 }
 
-export default LectureStudentInfo
+export default StudentControl

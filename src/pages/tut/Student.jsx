@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import axios from "axios";
 import Pagination from "../../components/common/Pagination";
 import { useQueryParam } from "../../hook/useQueryParam";
-import ModalStudent from "./ModalStudent";
+import ModalLecStudent from "./ModalLecStudent";
 
 
 const Student = () => {
@@ -10,7 +10,7 @@ const Student = () => {
     const queryLecId = queryParam.get('lecId');
     const queryTutorId = queryParam.get('tutorId');
 
-    const searchLecStdInput = useRef('');
+    const searchInput = useRef('');
     const [searchKey, setSearchKey] = useState('');
 
     let pageSize = 5;
@@ -58,7 +58,7 @@ const Student = () => {
         params.append('currentPage', cpage);
         params.append('pageSize', pageSize);
         params.append('searchKey', searchKey);
-        params.append('studentValue', searchLecStdInput.current.value);
+        params.append('studentValue', searchInput.current.value);
 
         axios.post("/tut/LectureStudentListjson.do", params)
             .then((res) => {
@@ -83,60 +83,66 @@ const Student = () => {
     // 수강신청 승인
     const approveLecStd = (stdId, lecId) => {
 
-        // var param = {
-        //     studentId : studentId,
-        //     lectureId : lectureId
-        // }
-        // url: '/tut/lectureStudentApprove',
+        if ( window.confirm("수강을 승인하겠습니까?") ) {
+            // var param = {
+            //     studentId : studentId,
+            //     lectureId : lectureId
+            // }
+            // url: '/tut/lectureStudentApprove',
 
-        let params = new URLSearchParams();
+            let params = new URLSearchParams();
 
-        params.append('studentId', stdId);
-        params.append('lectureId', lecId);
+            params.append('studentId', stdId);
+            params.append('lectureId', lecId);
 
-        axios.post("/tut/lectureStudentApprove.do", params)
-            .then((res) => {
-                // {"data":true,"status":200,"statusText":"OK"
-                console.log("approveLecStd() result console : " + JSON.stringify(res));
+            axios.post("/tut/lectureStudentApprove.do", params)
+                .then((res) => {
+                    // {"data":true,"status":200,"statusText":"OK"
+                    console.log("approveLecStd() result console : " + JSON.stringify(res));
 
-                if (res.data === true) {
-                    alert("수강 승인이 완료되었습니다.");
-                    searchLecStdList(lecId, lecStdCurrentPage);
-                }
-            })
-            .catch((err) => {
-                console.log("approveLecStd() result error : " + err.message);
-                alert(err.message);
-            });
+                    if (res.data === true) {
+                        alert("수강 승인이 완료되었습니다.");
+                        searchLecStdList(lecId, lecStdCurrentPage);
+                    }
+                })
+                .catch((err) => {
+                    console.log("approveLecStd() result error : " + err.message);
+                    alert(err.message);
+                });
+        }
     }
 
     // 수강신청 취소
     const cancelLecStd = (stdId, lecId) => {
-        // var param = {
-        //     studentId : studentId,
-        //     lectureId : lectureId
-        // }
-        // url: '/tut/lectureStudentApprove',
 
-        let params = new URLSearchParams();
+        if ( window.confirm("수강을 취소하겠습니까?") ) {
 
-        params.append('studentId', stdId);
-        params.append('lectureId', lecId);
+            // var param = {
+            //     studentId : studentId,
+            //     lectureId : lectureId
+            // }
+            // url: '/tut/lectureStudentApprove',
 
-        axios.post("/tut/lectureStudentCancle.do", params)
-            .then((res) => {
-                // {"data":true,"status":200,"statusText":"OK"
-                console.log("cancelLecStd() result console : " + JSON.stringify(res));
+            let params = new URLSearchParams();
 
-                if (res.data === true) {
-                    alert("수강 취소가 완료되었습니다.");
-                    searchLecStdList(lecId, lecStdCurrentPage);
-                }
-            })
-            .catch((err) => {
-                console.log("cancelLecStd() result error : " + err.message);
-                alert(err.message);
-            });
+            params.append('studentId', stdId);
+            params.append('lectureId', lecId);
+
+            axios.post("/tut/lectureStudentCancle.do", params)
+                .then((res) => {
+                    // {"data":true,"status":200,"statusText":"OK"
+                    console.log("cancelLecStd() result console : " + JSON.stringify(res));
+
+                    if (res.data === true) {
+                        alert("수강 취소가 완료되었습니다.");
+                        searchLecStdList(lecId, lecStdCurrentPage);
+                    }
+                })
+                .catch((err) => {
+                    console.log("cancelLecStd() result error : " + err.message);
+                    alert(err.message);
+                });
+        }
     }
 
     // 날짜를 yyyy-MM-dd 형식으로 포맷하는 함수
@@ -179,11 +185,11 @@ const Student = () => {
                         </select>                    
                         <input type="text" 
                             className="form-control"
-                            id="searchLecStdInput"
-                            name="searchLecStdInput"
+                            id="searchInput"
+                            name="searchInput"
                             placeholder=""
                             style={searchstylewidth}
-                            ref={searchLecStdInput}
+                            ref={searchInput}
                         />
                         <button className="btn btn-primary"
                             id="searchbtn"
@@ -282,10 +288,10 @@ const Student = () => {
                                                     onClick={searchLecStdList}/>}
                 </div>
             </div>{/* End 수강생목록 조회 */}
-            {stdDtlModalOn? <ModalStudent modalAction={stdDtlModalOn} 
+            {stdDtlModalOn? <ModalLecStudent modalAction={stdDtlModalOn} 
                                         setModalAction={setStdDtlModalOn} 
                                         tutorId={queryTutorId}
-                                        stdId={selStdId}></ModalStudent> : null}
+                                        stdId={selStdId}></ModalLecStudent> : null}
         </div>
     )    
 }

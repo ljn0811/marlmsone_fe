@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import axios from "axios";
 
 
-const ModalStudent = (props) => {
+const ModalLecStudent = (props) => {
     const [selinfo, setSelinfo] = useState({});
     const [stdLecList, setStdLecList] = useState([]);
 
@@ -159,4 +159,4 @@ const ModalStudent = (props) => {
     )    
 }
 
-export default ModalStudent
+export default ModalLecStudent
