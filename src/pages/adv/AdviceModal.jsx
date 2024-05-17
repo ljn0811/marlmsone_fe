@@ -41,7 +41,7 @@ const AdviceModal=(props)=>{
 
     /** 강의목록 */    
     const allLec=()=>{
-        axios.get("/adv/mlecList.do")
+        axios.get("/adv/lecListR.do")
             .then((res)=>{
                     setLecList(res.data.listData)
                 })
@@ -59,7 +59,6 @@ const AdviceModal=(props)=>{
 
     /** 학생목록 */    
     const allStd=(lec_id)=>{
-       // console.log('lec_id',lec_id);
         let params = new URLSearchParams();
         params.append("lec_id",lec_id)
         axios.get("/adv/stdListJson.do",{params})
@@ -70,7 +69,6 @@ const AdviceModal=(props)=>{
     
     /** 학생 선택 onchage */
     const selectStd=(e)=>{
-        //console.log('onchage함수 실행 강의번호 > ', e.target.value);
         setStd_id(e.target.value);
         setSelinfo((prev)=>{
                 return {...prev,std_id:e.target.value }
@@ -122,9 +120,8 @@ const AdviceModal=(props)=>{
         let params = new URLSearchParams(selinfo);
         params.append("adv_id",adv_id);
         axios
-        .post("/adv/advDetail.do",params)
+        .post("/adv/advDetailR.do",params)
         .then((res)=>{
-           // console.log(res.data.data)
             setSelinfo(res.data.data);
             allStd(res.data.data.lec_id)
         })

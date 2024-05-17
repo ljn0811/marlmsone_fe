@@ -4,8 +4,7 @@ import {useState, useEffect} from 'react'
 
 
 /*강의 목록 조회*/
-export default function MfSearch_lecList(props){
-        console.log('props를 보고 싶어',props)  
+export default function MfSearch_lecList(props){ 
         const [lecList,setLecList] = useState([]); 
         const [lectId, setLectId] = useState('');
 

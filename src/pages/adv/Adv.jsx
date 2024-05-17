@@ -3,7 +3,6 @@ import {useState, useEffect, useRef} from 'react'
 import { BrowserRouter , Routes , Route , Link, useNavigate } from 'react-router-dom'
 import Pagination from "../../components/common/Pagination";
 
-import MfSearch_lecList from "./MfSearch_lecList"
 import AdviceModal from "./AdviceModal"
 
 
@@ -30,16 +29,14 @@ export default function Adv( props ){
         
         /** 강의목록 */    
         const allLec=()=>{
-            axios.get("/adv/mlecList.do")
+            axios.get("/adv/lecListR.do")
                 .then((res)=>{
-                    console.log('강의 목록 조회 axios', res.data.listData);
                     setLecList(res.data.listData)
                 })
         }
 
         /** 강의 선택 onchage */
         const selectLec=(e)=>{
-            console.log('onchage함수 실행 강의번호 > ', e.target.value);
             setLec_id(e.target.value);
         }
 
