@@ -8,6 +8,9 @@ import Main from './pages/Main';
 import Login from './pages/Login';
 import Menu from './pages/Menu';
 import Content from './Content';
+
+import Adv from './pages/adv/Adv';
+
 import './App.css'
 
 const App = () => {
@@ -20,6 +23,7 @@ const App = () => {
       <Route exact path='/dashboard' element={<Dashboard />} >
         <Route path='/dashboard/menu' element={<Menu />} />
         <Route path='/dashboard/:type/:menu' element={<Content />} />
+        <Route exact path='/dashboard/adv/advice' element={<Adv />} />
       </Route>
     </Routes>
     </div>
